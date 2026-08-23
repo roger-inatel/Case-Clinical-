@@ -1,0 +1,411 @@
+{
+  "id": "pneumo-001",
+  "schemaVersion": 1,
+  "revision": 1,
+  "schemaExtensions": [
+    "EXT-2-review-status-pending",
+    "EXT-4-inline-qualifier-options",
+    "EXT-8-requires-findings",
+    "EXT-10-source-reading-level",
+    "EXT-11-authoring-ai-assisted"
+  ],
+  "specialty": "pneumologia",
+  "difficulty": "facil",
+  "title": "Tosse com febre e piora da falta de ar em mulher de 62 anos",
+  "estimatedMinutes": 12,
+  "tags": [
+    "tosse",
+    "febre",
+    "dispneia",
+    "infeccao-respiratoria",
+    "gravidade"
+  ],
+  "learningObjectives": [
+    "Reconhecimento de padrão em queixa respiratória febril",
+    "O que o exame físico decide sozinho e o que ele não decide",
+    "Leitura de critérios objetivos de gravidade",
+    "Quando um exame a mais acrescenta ruído em vez de informação"
+  ],
+  "_learningObjectivesNote": "Temáticos de propósito: nenhum objetivo nomeia o diagnóstico nem antecipa a resolução. O card de catálogo exibe apenas o primeiro.",
+  "patient": {
+    "age": 62,
+    "sex": "feminino",
+    "context": "chega à unidade de pronto atendimento acompanhada da filha"
+  },
+  "stages": [
+    {
+      "id": "s1",
+      "label": "Queixa principal",
+      "decisionPoints": [
+        "dp1",
+        "dp2"
+      ],
+      "findings": [
+        {
+          "id": "f1",
+          "category": "sintoma",
+          "text": "Tosse há cinco dias, no início seca e depois com expectoração amarelada, acompanhada de febre aferida em casa nos últimos quatro dias."
+        },
+        {
+          "id": "f2",
+          "category": "sintoma",
+          "text": "Dor no lado direito do tórax que piora à inspiração profunda e ao tossir, sem relação com esforço físico."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "História clínica",
+      "decisionPoints": [
+        "dp3"
+      ],
+      "findings": [
+        {
+          "id": "f3",
+          "category": "contexto",
+          "isDistractor": true,
+          "text": "Há dez dias procurou um pronto atendimento por coriza e dor de garganta, recebeu o rótulo de virose e teve melhora parcial em dois dias."
+        },
+        {
+          "id": "f4",
+          "category": "sintoma",
+          "text": "A falta de ar começou há dois dias e vem piorando: hoje sente falta de ar ao caminhar dentro de casa, o que antes não acontecia."
+        },
+        {
+          "id": "f5",
+          "category": "antecedente",
+          "text": "Hipertensão arterial em acompanhamento regular. Ex-tabagista, parou há doze anos."
+        },
+        {
+          "id": "f6",
+          "category": "negativa",
+          "text": "Nega edema, dor ou assimetria em membros inferiores. Nega imobilização prolongada, cirurgia recente, viagem longa e uso de terapia hormonal."
+        },
+        {
+          "id": "f7",
+          "category": "negativa",
+          "text": "Nega perda de peso, sudorese noturna e contato conhecido com pessoa em tratamento para tuberculose."
+        },
+        {
+          "id": "f8",
+          "category": "negativa",
+          "text": "Nega ortopneia, nega despertar noturno com falta de ar e nega inchaço progressivo das pernas."
+        },
+        {
+          "id": "f9",
+          "category": "contexto",
+          "isDistractor": true,
+          "text": "Mora com a filha, que teve quadro gripal com febre baixa duas semanas atrás e se recuperou sem intercorrência."
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "label": "Exame físico",
+      "decisionPoints": [
+        "dp4"
+      ],
+      "vitals": {
+        "pa": "118/74 mmHg",
+        "fc": "104 bpm",
+        "fr": "24 irpm",
+        "sato2": "93% em ar ambiente",
+        "tax": "38,4 °C"
+      },
+      "findings": [
+        {
+          "id": "f10",
+          "category": "exame-fisico",
+          "text": "Respiração superficial e frequente, com uso discreto da musculatura acessória do pescoço."
+        },
+        {
+          "id": "f11",
+          "category": "exame-fisico",
+          "text": "Crepitações inspiratórias e sopro tubário na base do hemitórax direito, com aumento do frêmito toracovocal nessa região."
+        },
+        {
+          "id": "f12",
+          "category": "exame-fisico",
+          "text": "Macicez à percussão na base direita, com redução do murmúrio vesicular no mesmo local."
+        },
+        {
+          "id": "f13",
+          "category": "exame-fisico",
+          "text": "Orientada no tempo e no espaço, responde às perguntas sem hesitação, sem alteração do nível de consciência."
+        },
+        {
+          "id": "f14",
+          "category": "negativa",
+          "text": "Ausculta cardíaca com bulhas rítmicas e normofonéticas, sem sopros. Sem turgência jugular e sem edema periférico."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "label": "Exames complementares",
+      "decisionPoints": [
+        "dp5"
+      ],
+      "findings": [
+        {
+          "id": "f15",
+          "category": "contexto",
+          "text": "Reavaliação após duas horas em observação: mantém-se orientada, sem piora do desconforto respiratório."
+        },
+        {
+          "id": "f16",
+          "category": "exame-complementar",
+          "revealedBy": "t.rx-torax",
+          "text": "Radiografia de tórax: opacidade heterogênea com broncogramas aéreos no lobo inferior direito, sem sinais de derrame pleural significativo, com área cardíaca de dimensões normais."
+        },
+        {
+          "id": "f17",
+          "category": "exame-complementar",
+          "revealedBy": "t.hemograma",
+          "text": "Hemograma: leucocitose com desvio à esquerda. Série vermelha e plaquetas dentro dos valores de referência do laboratório."
+        },
+        {
+          "id": "f18",
+          "category": "exame-complementar",
+          "revealedBy": "t.pcr",
+          "text": "Proteína C-reativa acentuadamente acima do valor de referência do laboratório."
+        },
+        {
+          "id": "f19",
+          "category": "exame-complementar",
+          "revealedBy": "t.ureia-creatinina",
+          "text": "Ureia e creatinina dentro dos valores de referência do laboratório."
+        },
+        {
+          "id": "f20",
+          "category": "exame-complementar",
+          "revealedBy": "t.d-dimero",
+          "isDistractor": true,
+          "text": "D-dímero acima do valor de referência do laboratório."
+        },
+        {
+          "id": "f21",
+          "category": "exame-complementar",
+          "revealedBy": "t.angiotc",
+          "text": "Angiotomografia de tórax: sem falha de enchimento nas artérias pulmonares. Consolidação no lobo inferior direito."
+        },
+        {
+          "id": "f22",
+          "category": "exame-complementar",
+          "revealedBy": "t.hemocultura",
+          "text": "Hemoculturas coletadas: sem crescimento bacteriano até o momento desta avaliação."
+        }
+      ]
+    }
+  ],
+  "availableTests": [
+    {
+      "id": "t.rx-torax",
+      "name": "Radiografia de tórax",
+      "turnaround": "em cerca de 30 minutos",
+      "revealsFindings": [
+        "f16"
+      ]
+    },
+    {
+      "id": "t.hemograma",
+      "name": "Hemograma",
+      "turnaround": "em cerca de 40 minutos",
+      "revealsFindings": [
+        "f17"
+      ]
+    },
+    {
+      "id": "t.pcr",
+      "name": "Proteína C-reativa",
+      "turnaround": "em cerca de 40 minutos",
+      "revealsFindings": [
+        "f18"
+      ]
+    },
+    {
+      "id": "t.ureia-creatinina",
+      "name": "Ureia e creatinina",
+      "turnaround": "em cerca de 40 minutos",
+      "revealsFindings": [
+        "f19"
+      ]
+    },
+    {
+      "id": "t.d-dimero",
+      "name": "D-dímero",
+      "turnaround": "em cerca de 60 minutos",
+      "revealsFindings": [
+        "f20"
+      ]
+    },
+    {
+      "id": "t.angiotc",
+      "name": "Angiotomografia de tórax",
+      "turnaround": "em cerca de 90 minutos",
+      "revealsFindings": [
+        "f21"
+      ]
+    },
+    {
+      "id": "t.hemocultura",
+      "name": "Hemoculturas",
+      "turnaround": "em 24 a 48 horas",
+      "revealsFindings": [
+        "f22"
+      ]
+    }
+  ],
+  "decisionPoints": [
+    {
+      "id": "dp1",
+      "type": "problem-representation",
+      "prompt": "Antes de levantar hipóteses: como você resumiria este problema? Selecione os qualificadores que melhor descrevem o quadro.",
+      "maxSelections": 5,
+      "required": true,
+      "options": [
+        {
+          "id": "q.agudo",
+          "label": "agudo"
+        },
+        {
+          "id": "q.febril",
+          "label": "febril"
+        },
+        {
+          "id": "q.tosse-produtiva",
+          "label": "com tosse produtiva"
+        },
+        {
+          "id": "q.dor-pleuritica",
+          "label": "com dor pleurítica"
+        },
+        {
+          "id": "q.dispneia",
+          "label": "com dispneia de início recente"
+        },
+        {
+          "id": "q.focal",
+          "label": "com achado focal em um hemitórax"
+        },
+        {
+          "id": "q.hipoxemia",
+          "label": "com queda de saturação em ar ambiente"
+        },
+        {
+          "id": "q.cronico",
+          "label": "crônico"
+        },
+        {
+          "id": "q.recorrente",
+          "label": "recorrente"
+        },
+        {
+          "id": "q.afebril",
+          "label": "afebril"
+        },
+        {
+          "id": "q.bilateral",
+          "label": "com achado difuso nos dois pulmões"
+        },
+        {
+          "id": "q.idosa",
+          "label": "em idosa"
+        }
+      ]
+    },
+    {
+      "id": "dp2",
+      "type": "hypothesis-list",
+      "prompt": "Com a informação disponível até aqui, quais hipóteses você considera? Selecione até quatro. Ainda há pouca informação de propósito: listar possibilidades não é o mesmo que concluir.",
+      "maxSelections": 4,
+      "required": true
+    },
+    {
+      "id": "dp3",
+      "type": "probability-shift",
+      "prompt": "Você acabou de saber que ela nega edema, dor ou assimetria nas pernas e nega imobilização, cirurgia recente, viagem longa e terapia hormonal. Como esse dado altera a probabilidade de tromboembolismo pulmonar?",
+      "aboutFinding": "f6",
+      "required": true
+    },
+    {
+      "id": "dp4",
+      "type": "test-selection",
+      "prompt": "Quais exames você solicita agora? Selecione até três. Esta é sua única oportunidade de solicitar exames neste caso — você só verá o resultado do que pedir.",
+      "maxSelections": 3,
+      "required": true
+    },
+    {
+      "id": "dp5",
+      "type": "final-hypothesis",
+      "prompt": "Qual sua hipótese diagnóstica principal? Use a formulação mais precisa que os dados que você obteve sustentam.",
+      "requiresEvidenceSelection": true,
+      "requiresRationaleText": true,
+      "required": true
+    }
+  ],
+  "disclaimer": "Caso clínico fictício, elaborado exclusivamente para fins educacionais. Não representa paciente real e não deve orientar qualquer decisão clínica.",
+  "authoring": {
+    "createdBy": "autor do projeto (assistido por IA)",
+    "aiAssisted": true,
+    "redTeamPassedAt": null,
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewStatus": "pending_human_review",
+    "fictional": true,
+    "_status": "Caso novo. Passou pela validação automática de conteúdo e por uma revisão adversarial documentada em docs/reviews/pneumo-001/, mas essa revisão NÃO foi conduzida por um agente de red team independente: foi feita por quem escreveu o caso, o que viola a regra de separação do CLAUDE.md §6 e vale menos. Por isso redTeamPassedAt permanece null e o caso não pode ser marcado como approved."
+  },
+  "sources": [
+    {
+      "title": "Diagnosis and Treatment of Adults with Community-acquired Pneumonia. An Official Clinical Practice Guideline of the American Thoracic Society and Infectious Diseases Society of America",
+      "organization": "American Thoracic Society / Infectious Diseases Society of America",
+      "year": 2019,
+      "url": "https://academic.oup.com/ajrccm/article/200/7/e45/8496962",
+      "usedFor": [
+        "diagnosticCriteria",
+        "testPrioritization",
+        "severityAssessment"
+      ],
+      "readingLevel": "abstract-e-recomendacoes",
+      "_citation": "Metlay JP, et al. Am J Respir Crit Care Med. 2019;200(7):e45-e67. doi:10.1164/rccm.201908-1581ST"
+    },
+    {
+      "title": "Recomendações para o manejo da pneumonia adquirida na comunidade 2018",
+      "organization": "Sociedade Brasileira de Pneumologia e Tisiologia",
+      "year": 2018,
+      "url": "https://www.jornaldepneumologia.com.br/Content/imagebank/pdf/2018_44_5_16_portugues.pdf",
+      "usedFor": [
+        "diagnosticCriteria",
+        "severityAssessment",
+        "findingPrevalence"
+      ],
+      "readingLevel": "integral",
+      "_citation": "Corrêa RA, et al. J Bras Pneumol. 2018;44(5):405-424. doi:10.1590/s1806-37562018000000129"
+    },
+    {
+      "title": "Defining community acquired pneumonia severity on presentation to hospital: an international derivation and validation study",
+      "organization": "Thorax (via PMC1746657)",
+      "year": 2003,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1746657/",
+      "usedFor": [
+        "severityAssessment",
+        "educationalFeedback"
+      ],
+      "readingLevel": "integral",
+      "_citation": "Lim WS, et al. Thorax. 2003;58(5):377-382. doi:10.1136/thorax.58.5.377"
+    },
+    {
+      "title": "Does this patient have community-acquired pneumonia? Diagnosing pneumonia by history and physical examination",
+      "organization": "JAMA (via NCBI DARE, registro NBK67086)",
+      "year": 1997,
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK67086/",
+      "usedFor": [
+        "examAccuracy",
+        "educationalFeedback",
+        "testPrioritization"
+      ],
+      "readingLevel": "abstract-estruturado",
+      "_citation": "Metlay JP, Kapoor WN, Fine MJ. JAMA. 1997;278(17):1440-1445"
+    }
+  ]
+}

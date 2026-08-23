@@ -1,0 +1,7 @@
+# Normaliza fim de linha: o repositório guarda LF, o Windows trabalha com CRLF.
+# Sem isto o build no Linux (Vercel) vê arquivos com CRLF vindos do Windows.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

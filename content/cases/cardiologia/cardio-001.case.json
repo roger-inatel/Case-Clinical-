@@ -1,0 +1,329 @@
+{
+  "id": "cardio-001",
+  "schemaVersion": 1,
+  "revision": 2,
+  "schemaExtensions": [
+    "EXT-2-review-status-pending",
+    "EXT-4-inline-qualifier-options",
+    "EXT-10-source-reading-level",
+    "EXT-11-authoring-ai-assisted"
+  ],
+  "specialty": "cardiologia",
+  "difficulty": "intermediario",
+  "title": "Desconforto torácico agudo em homem de 54 anos",
+  "estimatedMinutes": 15,
+  "tags": ["dor-toracica", "emergencia", "raciocinio-diagnostico"],
+
+  "learningObjectives": [
+    "Raciocínio diagnóstico em dor torácica aguda no pronto-socorro",
+    "Uso de informação proveniente de atendimentos anteriores",
+    "Interpretação de exames complementares não conclusivos"
+  ],
+  "_learningObjectivesNote": "Objetivos deliberadamente temáticos, sem resolução (red team B6). A versão explícita do que o caso treina vive em key.learningOutcomes e é revelada no fechamento, onde é pedagogicamente útil sem antecipar as respostas.",
+
+  "patient": {
+    "age": 54,
+    "sex": "masculino",
+    "context": "chega ao pronto-socorro por conta própria, acompanhado da esposa"
+  },
+
+  "stages": [
+    {
+      "id": "s1",
+      "label": "Queixa principal",
+      "decisionPoints": ["dp1", "dp2"],
+      "findings": [
+        {
+          "id": "f1",
+          "category": "sintoma",
+          "text": "Desconforto torácico retroesternal, descrito como aperto, de instalação gradual ao longo de alguns minutos, iniciado há cerca de 90 minutos enquanto o paciente assistia televisão."
+        },
+        {
+          "id": "f2",
+          "category": "sintoma",
+          "text": "O desconforto é contínuo desde o início, sem alívio espontâneo e sem relação com a movimentação ou com a respiração."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "História clínica",
+      "decisionPoints": ["dp3"],
+      "findings": [
+        {
+          "id": "f3",
+          "category": "sintoma",
+          "text": "Náusea e sudorese fria associadas ao desconforto."
+        },
+        {
+          "id": "f4",
+          "category": "contexto",
+          "isDistractor": true,
+          "text": "Relata semanas de estresse intenso no trabalho, com insônia e irritabilidade."
+        },
+        {
+          "id": "f5a",
+          "category": "antecedente",
+          "text": "Há oito meses procurou pronto-socorro por um quadro semelhante de desconforto torácico."
+        },
+        {
+          "id": "f5b",
+          "category": "antecedente",
+          "isDistractor": true,
+          "text": "Naquele atendimento, recebeu alta com diagnóstico de crise de ansiedade."
+        },
+        {
+          "id": "f6",
+          "category": "antecedente",
+          "text": "Hipertenso há dez anos, em uso irregular de losartana."
+        },
+        {
+          "id": "f7",
+          "category": "antecedente",
+          "text": "Ex-tabagista: 20 anos-maço, cessou há três anos."
+        },
+        {
+          "id": "f8",
+          "category": "antecedente",
+          "text": "Pai com infarto agudo do miocárdio aos 52 anos."
+        },
+        {
+          "id": "f9",
+          "category": "negativa",
+          "text": "Nega irradiação do desconforto para o dorso."
+        },
+        {
+          "id": "f10",
+          "category": "negativa",
+          "text": "Nega dispneia súbita, imobilização prolongada, cirurgia recente ou viagem de longa duração."
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "label": "Exame físico",
+      "decisionPoints": ["dp4"],
+      "vitals": {
+        "pa": "148/92 mmHg",
+        "fc": "88 bpm",
+        "fr": "18 irpm",
+        "sato2": "97% em ar ambiente",
+        "tax": "36,5 °C"
+      },
+      "findings": [
+        {
+          "id": "f11",
+          "category": "exame-fisico",
+          "text": "Paciente consciente e orientado, visivelmente ansioso e sudoreico, corado e hidratado."
+        },
+        {
+          "id": "f12",
+          "category": "exame-fisico",
+          "text": "Ausculta cardíaca com bulhas rítmicas e normofonéticas, sem sopros ou atrito. Ausculta pulmonar sem ruídos adventícios."
+        },
+        {
+          "id": "f13",
+          "category": "exame-fisico",
+          "text": "Pulsos radiais e femorais simétricos; pressão arterial semelhante nos dois membros superiores."
+        },
+        {
+          "id": "f14",
+          "category": "exame-fisico",
+          "text": "Membros inferiores sem edema, sem empastamento de panturrilhas e sem assimetria de diâmetro."
+        },
+        {
+          "id": "f15",
+          "category": "exame-fisico",
+          "text": "A palpação da parede torácica não reproduz o desconforto relatado."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "label": "Exames complementares",
+      "decisionPoints": ["dp5"],
+      "findings": [
+        {
+          "id": "f21",
+          "category": "contexto",
+          "text": "Reavaliação realizada cerca de três horas após o início do desconforto, com os resultados dos exames solicitados já disponíveis."
+        },
+        {
+          "id": "f16",
+          "category": "exame-complementar",
+          "revealedBy": "t.ecg",
+          "text": "ECG de 12 derivações: ritmo sinusal, 86 bpm, sem supradesnivelamento do segmento ST e sem alterações isquêmicas agudas."
+        },
+        {
+          "id": "f17",
+          "category": "exame-complementar",
+          "revealedBy": "t.troponina",
+          "text": "Troponina I ultrassensível, amostra inicial: valor acima do percentil 99 do limite superior de referência do laboratório."
+        },
+        {
+          "id": "f18",
+          "category": "exame-complementar",
+          "revealedBy": "t.rx-torax",
+          "text": "Radiografia de tórax: área cardíaca de dimensões normais, mediastino sem alargamento, campos pulmonares sem consolidações ou pneumotórax."
+        },
+        {
+          "id": "f19",
+          "category": "exame-complementar",
+          "revealedBy": "t.d-dimero",
+          "text": "D-dímero dentro do valor de referência."
+        },
+        {
+          "id": "f20",
+          "category": "exame-complementar",
+          "revealedBy": "t.angiotc",
+          "text": "Angiotomografia de tórax: sem sinais de dissecção aórtica e sem falhas de enchimento nas artérias pulmonares."
+        }
+      ]
+    }
+  ],
+
+  "availableTests": [
+    {
+      "id": "t.ecg",
+      "name": "Eletrocardiograma de 12 derivações",
+      "turnaround": "imediato",
+      "revealsFindings": ["f16"]
+    },
+    {
+      "id": "t.troponina",
+      "name": "Troponina ultrassensível (amostra inicial)",
+      "turnaround": "cerca de 1 hora",
+      "revealsFindings": ["f17"]
+    },
+    {
+      "id": "t.rx-torax",
+      "name": "Radiografia de tórax",
+      "turnaround": "cerca de 30 minutos",
+      "revealsFindings": ["f18"]
+    },
+    {
+      "id": "t.d-dimero",
+      "name": "D-dímero",
+      "turnaround": "cerca de 1 hora",
+      "revealsFindings": ["f19"]
+    },
+    {
+      "id": "t.angiotc",
+      "name": "Angiotomografia de tórax",
+      "turnaround": "cerca de 2 horas",
+      "revealsFindings": ["f20"],
+      "_pendingReview": "O laudo f20 responde por dissecção aórtica E por tromboembolismo pulmonar. O red team (R13) aponta que são protocolos distintos e que o nome genérico não comunica um protocolo combinado. Encaminhado à revisão clínica H5; NÃO corrigido."
+    }
+  ],
+
+  "decisionPoints": [
+    {
+      "id": "dp1",
+      "type": "problem-representation",
+      "prompt": "Antes de levantar hipóteses: como você resumiria este problema? Selecione os qualificadores que melhor descrevem o quadro.",
+      "maxSelections": 6,
+      "required": true,
+      "options": [
+        { "id": "q.agudo", "label": "agudo" },
+        { "id": "q.cronico", "label": "crônico" },
+        { "id": "q.subito", "label": "de início súbito" },
+        { "id": "q.insidioso", "label": "de início gradual" },
+        { "id": "q.continuo", "label": "contínuo" },
+        { "id": "q.intermitente", "label": "intermitente" },
+        { "id": "q.opressivo", "label": "opressivo / em aperto" },
+        { "id": "q.pleuritico", "label": "pleurítico" },
+        { "id": "q.lancinante", "label": "lancinante" },
+        { "id": "q.retroesternal", "label": "retroesternal" },
+        { "id": "q.localizado-parede", "label": "localizado na parede torácica" },
+        { "id": "q.em-repouso", "label": "em repouso" },
+        { "id": "q.aos-esforcos", "label": "aos esforços" },
+        { "id": "q.migratorio", "label": "migratório" }
+      ]
+    },
+    {
+      "id": "dp2",
+      "type": "hypothesis-list",
+      "prompt": "Com a informação disponível até aqui, quais hipóteses você considera? Selecione até quatro. É pouca informação de propósito: levantar possibilidades não é o mesmo que concluir.",
+      "maxSelections": 4,
+      "required": true
+    },
+    {
+      "id": "dp3",
+      "type": "probability-shift",
+      "prompt": "Você acabou de saber que, no atendimento de oito meses atrás, este paciente recebeu alta com diagnóstico de crise de ansiedade. Considerando apenas esse rótulo diagnóstico atribuído naquela ocasião, como essa informação altera a probabilidade de síndrome coronariana aguda no episódio atual?",
+      "aboutFinding": "f5b",
+      "required": true
+    },
+    {
+      "id": "dp4",
+      "type": "test-selection",
+      "prompt": "Quais exames você solicita agora? Selecione até três. Esta é sua única oportunidade de solicitação neste caso: não haverá uma segunda rodada.",
+      "maxSelections": 3,
+      "required": true
+    },
+    {
+      "id": "dp5",
+      "type": "final-hypothesis",
+      "prompt": "Qual sua hipótese diagnóstica principal? Use a formulação mais precisa que os dados que você obteve permitirem.",
+      "requiresEvidenceSelection": true,
+      "requiresRationaleText": true,
+      "required": true
+    }
+  ],
+
+  "disclaimer": "Caso clínico fictício, elaborado exclusivamente para fins educacionais. Não representa paciente real e não deve orientar qualquer decisão clínica.",
+
+  "authoring": {
+    "createdBy": "autor do projeto (assistido por IA)",
+    "aiAssisted": true,
+    "redTeamPassedAt": null,
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewStatus": "pending_human_review",
+    "fictional": true,
+    "_status": "Revisão 2: 28 dos 50 achados do red team corrigidos. Seis achados permanecem abertos por dependerem de decisão clínica (R1, R4, R13, R14, R17, R21) e onze questões (H1–H11) aguardam revisor. redTeamPassedAt permanece null."
+  },
+
+  "sources": [
+    {
+      "title": "Diretrizes da Sociedade Brasileira de Cardiologia sobre Angina Instável e Infarto Agudo do Miocárdio sem Supradesnível do Segmento ST – 2021",
+      "organization": "Sociedade Brasileira de Cardiologia",
+      "year": 2021,
+      "url": "https://www.scielo.br/j/abc/a/QvqxLFycJhLvNGFzPhsbZPF/?lang=pt",
+      "usedFor": ["diagnosticCriteria", "testPrioritization"],
+      "readingLevel": "search-summary-only"
+    },
+    {
+      "title": "2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain",
+      "organization": "American Heart Association / American College of Cardiology",
+      "year": 2021,
+      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001029",
+      "usedFor": ["differentialDiagnosis", "redFlags", "testPrioritization"],
+      "readingLevel": "search-summary-only"
+    },
+    {
+      "title": "Clinical characteristics and diagnostic challenges of non-ST-segment elevation acute coronary syndrome patients with normal electrocardiograms: a review",
+      "organization": "Frontiers in Cardiovascular Medicine",
+      "year": 2026,
+      "url": "https://www.frontiersin.org/journals/cardiovascular-medicine/articles/10.3389/fcvm.2026.1835982/full",
+      "usedFor": ["ecgInterpretation", "educationalFeedback", "findingPrevalence"],
+      "readingLevel": "search-summary-only"
+    },
+    {
+      "title": "Panic attack and its correlation with acute coronary syndrome — more than just a diagnosis of exclusion",
+      "organization": "Singapore Medical Journal (via PubMed 20372755)",
+      "year": 2010,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20372755/",
+      "usedFor": ["distractorDesign", "educationalFeedback", "epidemiology"],
+      "readingLevel": "search-summary-only"
+    },
+    {
+      "title": "Presentation, Diagnosis, and Outcomes of Acute Aortic Dissection: 17-Year Trends From the International Registry of Acute Aortic Dissection",
+      "organization": "Journal of the American College of Cardiology",
+      "year": 2015,
+      "url": "https://www.jacc.org/doi/10.1016/j.jacc.2015.05.029",
+      "usedFor": ["differentialDiagnosis", "educationalFeedback", "findingPrevalence"],
+      "readingLevel": "search-summary-only"
+    }
+  ]
+}

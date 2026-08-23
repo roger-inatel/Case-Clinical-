@@ -1,0 +1,263 @@
+{
+  "_note": "Vocabulário controlado compartilhado por todos os casos. Um caso NÃO é autocontido: ele referencia conceptIds que precisam existir aqui. Acrescentar um conceito amplia o diferencial que o autocomplete oferece em TODOS os casos — hipótese fora da chave de um caso recebe 'não analisada por este caso', nunca 'errada'.",
+  "_normalizationRule": "A busca do autocomplete compara rótulo e aliases após casefold (minúsculas) e remoção de diacríticos. Por isso os aliases são gravados sem acento e os labels com acento: os dois casam após normalização. Regra declarada aqui por exigência do achado O16(c) do red team.",
+  "schemaVersion": 1,
+  "revision": 3,
+  "concepts": [
+    {
+      "id": "dx.sca",
+      "label": "Síndrome coronariana aguda",
+      "aliases": [
+        "SCA",
+        "sindrome coronariana",
+        "isquemia miocardica aguda",
+        "insuficiencia coronariana aguda"
+      ],
+      "specialties": [
+        "cardiologia"
+      ],
+      "category": "isquemica"
+    },
+    {
+      "id": "dx.sca-ssst",
+      "label": "Síndrome coronariana aguda SEM supradesnivelamento do ST",
+      "aliases": [
+        "SCASSST",
+        "IAMSSST",
+        "IAM sem supra",
+        "infarto sem supra de ST",
+        "NSTEMI",
+        "sem supra de ST"
+      ],
+      "specialties": [
+        "cardiologia"
+      ],
+      "category": "isquemica",
+      "parentConcept": "dx.sca",
+      "_aliasNote": "'angina instavel' foi REMOVIDA deste conceito (red team B4): angina instável é, por definição, SCA sem elevação de biomarcador de necrose, e este caso tem troponina acima do percentil 99. Criar um conceito dx.angina-instavel próprio depende da revisão clínica H7 e não foi feito."
+    },
+    {
+      "id": "dx.sca-csst",
+      "label": "Síndrome coronariana aguda COM supradesnivelamento do ST",
+      "aliases": [
+        "IAMCSST",
+        "IAM com supra",
+        "infarto com supra de ST",
+        "STEMI",
+        "supra de ST"
+      ],
+      "specialties": [
+        "cardiologia"
+      ],
+      "category": "isquemica",
+      "parentConcept": "dx.sca"
+    },
+    {
+      "id": "dx.dissecao-aorta",
+      "label": "Dissecção aguda de aorta",
+      "aliases": [
+        "disseccao de aorta",
+        "dissecao aortica",
+        "aneurisma dissecante de aorta",
+        "sindrome aortica aguda",
+        "DAA"
+      ],
+      "specialties": [
+        "cardiologia",
+        "emergencia"
+      ],
+      "category": "vascular"
+    },
+    {
+      "id": "dx.tep",
+      "label": "Tromboembolismo pulmonar",
+      "aliases": [
+        "TEP",
+        "embolia pulmonar",
+        "embolia de pulmao",
+        "tromboembolismo venoso pulmonar",
+        "tromboembolismo pulmonar agudo"
+      ],
+      "specialties": [
+        "pneumologia",
+        "cardiologia",
+        "emergencia"
+      ],
+      "category": "vascular"
+    },
+    {
+      "id": "dx.miocardite",
+      "label": "Miocardite",
+      "aliases": [
+        "miocardite aguda",
+        "inflamacao do miocardio"
+      ],
+      "specialties": [
+        "cardiologia"
+      ],
+      "category": "inflamatoria"
+    },
+    {
+      "id": "dx.ansiedade",
+      "label": "Transtorno de ansiedade / crise de pânico",
+      "aliases": [
+        "ansiedade",
+        "crise de ansiedade",
+        "sindrome do panico",
+        "ataque de panico",
+        "transtorno de panico"
+      ],
+      "specialties": [
+        "psiquiatria",
+        "clinica-medica"
+      ],
+      "category": "psiquiatrica",
+      "_aliasNote": "'somatizacao' removida (red team O15): é construto distinto e merece conceito próprio ou nenhum. A separação entre transtorno de ansiedade e ataque de pânico permanece pendente — o argumento de dp3 apoia-se em literatura sobre transtorno de pânico especificamente."
+    },
+    {
+      "id": "dx.drge",
+      "label": "Doença do refluxo gastroesofágico",
+      "aliases": [
+        "DRGE",
+        "refluxo",
+        "refluxo gastroesofagico",
+        "esofagite de refluxo"
+      ],
+      "specialties": [
+        "gastroenterologia"
+      ],
+      "category": "gastrointestinal",
+      "_idNote": "Renomeado de dx.dre para dx.drge (red team O14) antes que outros casos referenciassem o id."
+    },
+    {
+      "id": "dx.dor-musculoesqueletica",
+      "label": "Dor torácica musculoesquelética",
+      "aliases": [
+        "dor muscular",
+        "dor de parede toracica",
+        "dor osteomuscular"
+      ],
+      "specialties": [
+        "clinica-medica",
+        "ortopedia"
+      ],
+      "category": "musculoesqueletica",
+      "_aliasNote": "'costocondrite' removida (red team O16a): é diagnóstico específico, não sinônimo da categoria."
+    },
+    {
+      "id": "dx.dados-insuficientes",
+      "label": "Não há dados suficientes para sustentar uma hipótese",
+      "aliases": [
+        "dados insuficientes",
+        "nao sei",
+        "informacao insuficiente",
+        "nao da para concluir"
+      ],
+      "special": true
+    },
+    {
+      "id": "dx.pac",
+      "label": "Pneumonia adquirida na comunidade",
+      "aliases": [
+        "PAC",
+        "pneumonia",
+        "pneumonia comunitaria",
+        "pneumonia adquirida na comunidade",
+        "pneumonia bacteriana"
+      ],
+      "specialties": [
+        "pneumologia",
+        "clinica-medica"
+      ],
+      "category": "infeccao-respiratoria"
+    },
+    {
+      "id": "dx.bronquite-aguda",
+      "label": "Bronquite aguda",
+      "aliases": [
+        "bronquite",
+        "bronquite aguda",
+        "traqueobronquite aguda"
+      ],
+      "specialties": [
+        "pneumologia",
+        "clinica-medica"
+      ],
+      "category": "infeccao-respiratoria"
+    },
+    {
+      "id": "dx.influenza",
+      "label": "Influenza / síndrome gripal",
+      "aliases": [
+        "influenza",
+        "gripe",
+        "sindrome gripal",
+        "virose respiratoria"
+      ],
+      "specialties": [
+        "pneumologia",
+        "clinica-medica",
+        "infectologia"
+      ],
+      "category": "infeccao-respiratoria"
+    },
+    {
+      "id": "dx.tuberculose-pulmonar",
+      "label": "Tuberculose pulmonar",
+      "aliases": [
+        "tuberculose",
+        "TB pulmonar",
+        "tuberculose pulmonar"
+      ],
+      "specialties": [
+        "pneumologia",
+        "infectologia"
+      ],
+      "category": "infeccao-respiratoria"
+    },
+    {
+      "id": "dx.ic-descompensada",
+      "label": "Insuficiência cardíaca descompensada",
+      "aliases": [
+        "insuficiencia cardiaca",
+        "IC descompensada",
+        "ICC descompensada",
+        "insuficiencia cardiaca congestiva"
+      ],
+      "specialties": [
+        "cardiologia",
+        "clinica-medica"
+      ],
+      "category": "cardiovascular"
+    }
+  ],
+  "_pendingConcepts": {
+    "_note": "Conceitos que o red team identificou como necessários (achado R4) e que NÃO foram adicionados porque exigem decisão clínica (item H3 da revisão humana). Enquanto não existirem, o estudante que os propuser receberá 'naoPrevisto'.",
+    "items": [
+      {
+        "id": "dx.pericardite",
+        "why": "O caso escreve o negativo pertinente em f12 ('sem atrito') e não deixa nomear a hipótese"
+      },
+      {
+        "id": "dx.takotsubo",
+        "why": "O caso constrói o contexto de estresse em f4 e entrega troponina elevada com ECG não diagnóstico — é a leitura mais inteligente do distrator central"
+      },
+      {
+        "id": "dx.iam-tipo-2",
+        "why": "A própria chave escreve que a caracterização como tipo 1 depende de curva de troponina"
+      },
+      {
+        "id": "dx.pneumotorax",
+        "why": "O caso escreve o negativo em f18 ('sem pneumotórax')"
+      },
+      {
+        "id": "dx.angina-instavel",
+        "why": "Hipótese razoável antes da troponina; hoje removida como alias sem conceito próprio (H7)"
+      },
+      {
+        "id": "dx.angina-vasoespastica",
+        "why": "Dor em repouso, ex-tabagista, ECG sem alteração"
+      }
+    ]
+  }
+}

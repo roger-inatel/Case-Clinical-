@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "specialties": [
+    {
+      "id": "cardiologia",
+      "label": "Cardiologia",
+      "description": "Dor torácica, dispneia de origem cardíaca e emergências cardiovasculares.",
+      "order": 1
+    },
+    {
+      "id": "pneumologia",
+      "label": "Pneumologia",
+      "description": "Dispneia, tosse, dor torácica de origem respiratória e emergências pulmonares.",
+      "order": 2
+    }
+  ]
+}
