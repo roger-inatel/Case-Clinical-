@@ -5,7 +5,9 @@ import { afterEach } from 'vitest';
 if (typeof document !== 'undefined') {
   // O jsdom não implementa rolagem e reclama em stderr toda vez que um
   // componente sobe a página. Não é falha do produto: é ausência de layout.
+  // Com os stubs, o caminho real de navegação é exercido em vez de pulado.
   window.scrollTo = () => {};
+  Element.prototype.scrollIntoView = () => {};
 
   await import('@testing-library/jest-dom/vitest');
   const { cleanup } = await import('@testing-library/react');

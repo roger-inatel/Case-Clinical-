@@ -10,12 +10,15 @@ import { cn } from '@/ui/cn';
  * borda ou mais um cartão. O versalete acima diz onde o leitor está.
  */
 export function PageHeader({
+  id,
   eyebrow,
   title,
   lead,
   actions,
   className,
 }: {
+  /** Quando presente, o título vira alvo de rolagem e de foco. */
+  id?: string;
   eyebrow?: ReactNode;
   title: ReactNode;
   lead?: ReactNode;
@@ -26,7 +29,14 @@ export function PageHeader({
     <header className={cn('space-y-3', className)}>
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
 
-      <h1 className="font-case text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h1
+        id={id}
+        tabIndex={id ? -1 : undefined}
+        className={cn(
+          'font-case text-2xl font-semibold tracking-tight text-foreground sm:text-3xl',
+          id && 'scroll-anchor',
+        )}
+      >
         {title}
       </h1>
 
@@ -46,17 +56,34 @@ export function SectionHeading({
   eyebrow,
   children,
   hint,
+  position,
+  focusable = false,
 }: {
   id?: string;
   eyebrow?: ReactNode;
   children: ReactNode;
   hint?: ReactNode;
+  /**
+   * Sufixo lido apenas por leitor de tela — "(seção 3 de 9)". Não é microcópia
+   * nova: é paridade de áudio para o contador que já está na tela.
+   */
+  position?: string;
+  /** Alvo de rolagem e de foco após uma revelação. */
+  focusable?: boolean;
 }) {
   return (
     <div className="space-y-1.5">
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <h2 id={id} className="text-xl font-semibold tracking-tight text-foreground">
+      <h2
+        id={id}
+        tabIndex={focusable ? -1 : undefined}
+        className={cn(
+          'text-xl font-semibold tracking-tight text-foreground',
+          focusable && 'scroll-anchor',
+        )}
+      >
         {children}
+        {position && <span className="sr-only"> ({position})</span>}
       </h2>
       {hint && <p className="max-w-reading text-sm text-muted-foreground">{hint}</p>}
     </div>

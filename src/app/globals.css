@@ -67,6 +67,11 @@
   --radius: 0.625rem;
   --shadow-color: 213 35% 18%;
 
+  /* Altura do cabeçalho fixo (h-14 em app/layout.tsx). */
+  --app-header-h: 3.5rem;
+  /* Quanto do topo está permanentemente coberto. A simulação sobrescreve. */
+  --sticky-top: var(--app-header-h);
+
   /* ---------------------------------------------- tokens de domínio */
 
   /* O papel: superfície do registro clínico. Sem borda, sem sombra. */
@@ -203,6 +208,21 @@
     line-height: 1.7;
     max-width: 68ch;
     overflow-wrap: break-word;
+  }
+
+  /* A simulação tem uma SEGUNDA barra fixa (a barra de etapa, `sticky top-14`).
+     3.5rem é o pior caso: rótulo de etapa em duas linhas em tela estreita. */
+  .with-stage-bar {
+    --sticky-top: calc(var(--app-header-h) + 3.5rem);
+  }
+
+  /* Alvo de rolagem. `scroll-margin` só é honrado por scrollIntoView() e por
+     navegação por âncora — é por isso que a navegação usa scrollIntoView e nunca
+     window.scrollTo() com uma coordenada calculada à mão. O 1.5rem extra deixa
+     respirar a borda superior do bloco. */
+  .scroll-anchor {
+    scroll-margin-top: calc(var(--sticky-top) + 1.5rem);
+    scroll-margin-bottom: 4rem;
   }
 
   /* Rótulo de seção: versalete espaçado. É o que dá o tom acadêmico sem

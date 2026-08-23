@@ -41,10 +41,19 @@ export function DocumentBlock({
  * Cabeçalho do documento: versalete + filete. O filete é o que dá ao bloco a
  * leitura de "folha de registro" em vez de "mais um cartão".
  */
-export function DocumentLabel({ children }: { children: ReactNode }) {
+export function DocumentLabel({ id, children }: { id?: string; children: ReactNode }) {
   return (
     <div className="mb-3 flex items-center gap-3">
-      <h2 className="eyebrow shrink-0">{children}</h2>
+      {/* `tabIndex={-1}` torna o título focável por script sem entrar na ordem
+          do Tab: é assim que a revelação de uma etapa nova leva junto o foco de
+          quem navega por teclado (docs/04-ux/navegacao-e-foco.md, M3). */}
+      <h2
+        id={id}
+        tabIndex={id ? -1 : undefined}
+        className={cn('eyebrow shrink-0', id && 'scroll-anchor')}
+      >
+        {children}
+      </h2>
       <span aria-hidden className="h-px flex-1 bg-paper-rule" />
     </div>
   );

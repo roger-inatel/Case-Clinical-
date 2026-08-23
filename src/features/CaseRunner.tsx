@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, CircleSlash, Lock } from 'lucide-react';
 
 import type { CaseKey, Vocabulary } from '@/content/schema';
@@ -31,10 +31,33 @@ import {
   StepIndicator,
   VITAL_LABEL,
 } from '@/ui';
+import { ANCHOR, runIntent, type NavIntent } from './navigation';
 import { DecisionPointView } from './DecisionPoints';
 import { ResultView } from './ResultView';
 
 const storageKey = (caseId: string) => `ccai:session:${caseId}`;
+
+/**
+ * A submissão revelou algum achado DA ETAPA ATUAL?
+ *
+ * `recordAnswer` acrescenta os exames escolhidos a `testsRequested`, e o
+ * registro clínico filtra achados por `revealedBy`. Se um caso puser achado
+ * condicional na mesma etapa do ponto de decisão de exames, submeter injeta
+ * texto novo acima do cartão — e mandar o estudante para o botão de avançar
+ * passaria por cima dele. Nenhum caso do catálogo faz isso hoje; conteúdo muda
+ * sem a UI mudar. (docs/04-ux/navegacao-e-foco.md, M2b)
+ */
+function revealedInCurrentStage(
+  caseView: StudentCaseView,
+  before: Session,
+  after: Session,
+): boolean {
+  const stage = caseView.stages[currentStageIndex(caseView, after)];
+  if (!stage) return false;
+  const visible = (s: Session) =>
+    stage.findings.filter((f) => !f.revealedBy || s.testsRequested.includes(f.revealedBy)).length;
+  return visible(after) > visible(before);
+}
 
 export function CaseRunner({
   caseView,
@@ -79,6 +102,25 @@ export function CaseRunner({
     return evaluate(caseView, caseKey, vocabulary, session);
   }, [session, caseView, caseKey, vocabulary]);
 
+  /**
+   * Navegação após um avanço — docs/04-ux/navegacao-e-foco.md.
+   *
+   * A intenção é um `useRef` gravado pelo HANDLER, não um estado derivado: é o
+   * que impede que restaurar a sessão do sessionStorage, hidratar ou
+   * re-renderizar joguem o estudante para um lugar que ele não pediu (regra N3).
+   *
+   * Declarado ACIMA do `if (result) return <ResultView …>` de propósito: depois
+   * dele a contagem de hooks mudaria entre renders.
+   */
+  const nav = useRef<NavIntent | null>(null);
+
+  useEffect(() => {
+    const intent = nav.current;
+    if (!intent) return;
+    nav.current = null;
+    runIntent(intent);
+  });
+
   if (result) {
     return (
       <ResultView
@@ -110,6 +152,23 @@ export function CaseRunner({
     setSession((prev) => {
       let next = recordAnswer(prev, currentDp.id, answer);
       if (isComplete(caseView, next)) next = completeSession(next, Date.now());
+
+      // Onde parar depois desta resposta. Decidido aqui, com a sessão seguinte
+      // em mãos, porque é o único ponto que sabe o que a submissão destravou.
+      if (isComplete(caseView, next)) {
+        nav.current = null; // a ResultView cuida da própria entrada (M4)
+      } else if (pendingDecisionPoints(caseView, next).length > 0) {
+        nav.current = { kind: 'decision-point' }; // M1
+      } else if (revealedInCurrentStage(caseView, prev, next)) {
+        // M2b — a submissão injetou achado NOVO na etapa atual (exame que
+        // destrava `revealedBy` da própria etapa). Mandar para o botão passaria
+        // por cima de texto que o estudante ainda não leu.
+        nav.current = { kind: 'stage', stageId: caseView.stages[stageIdx]!.id };
+      } else if (canAdvance(caseView, next)) {
+        nav.current = { kind: 'advance-button' }; // M2
+      } else {
+        nav.current = { kind: 'end-of-stages' };
+      }
       return next;
     });
   }
@@ -119,7 +178,9 @@ export function CaseRunner({
     : revealedFindings(caseView, session);
 
   return (
-    <div className="mx-auto max-w-app px-4 pb-32 pt-6 sm:px-6 sm:pb-24">
+    /* `with-stage-bar`: esta tela tem DUAS barras fixas no topo, e a classe é o
+       que faz o alvo de rolagem parar abaixo das duas. */
+    <div className="with-stage-bar mx-auto max-w-app px-4 pb-32 pt-6 sm:px-6 sm:pb-24">
       <Breadcrumb href={`/casos/${caseView.id}/`}>Visão geral do caso</Breadcrumb>
 
       {/* Fica logo abaixo do cabeçalho da aplicação (h-14) e acompanha a rolagem:
@@ -163,7 +224,7 @@ export function CaseRunner({
             <DocumentBlock
               key={stage.id}
               muted={!isCurrent}
-              label={<DocumentLabel>{stage.label}</DocumentLabel>}
+              label={<DocumentLabel id={ANCHOR.stage(stage.id)}>{stage.label}</DocumentLabel>}
             >
               {vitals.length > 0 && (
                 /* Filete por célula com margem negativa, e não `gap-px` sobre um
@@ -213,12 +274,23 @@ export function CaseRunner({
           arredondadas faixa a faixa. */}
       {currentDp && (
         <Card className="mt-8 border-primary/25 shadow-md">
-          <div className="flex items-center justify-between gap-3 rounded-t-lg border-b border-border bg-accent/60 px-4 py-2.5 sm:px-6">
-            <p className="eyebrow text-accent-foreground">Ponto de decisão</p>
-            <p className="text-xs tabular-nums text-muted-foreground">
+          {/* `h2` e não `div`: o cartão é o componente central do produto e não
+              tinha heading nenhum. O nome acessível vira "Ponto de decisão N de
+              M", que é exatamente o que quem chega aqui precisa ouvir. */}
+          <h2
+            id={ANCHOR.decisionPoint}
+            tabIndex={-1}
+            className="scroll-anchor flex items-center justify-between gap-3 rounded-t-lg border-b border-border bg-accent/60 px-4 py-2.5 sm:px-6"
+          >
+            <span className="eyebrow text-accent-foreground">Ponto de decisão</span>
+            <span className="text-xs tabular-nums text-muted-foreground">
+              {/* Sem separador, o nome acessível sai colado: "Ponto de decisão2
+                  de 5". Os dois `span` são irmãos em flex e não há espaço entre
+                  eles no DOM. */}
+              <span className="sr-only">, </span>
               {decisionNumber} de {totalDecisions}
-            </p>
-          </div>
+            </span>
+          </h2>
 
           <div className="p-4 sm:p-6">
             <DecisionPointView
@@ -245,9 +317,18 @@ export function CaseRunner({
       {!currentDp && canGoOn && (
         <div className="mt-8">
           <Button
+            id={ANCHOR.advanceButton}
             size="lg"
-            className="w-full sm:w-auto"
-            onClick={() => setSession((s) => advanceStage(caseView, s))}
+            className="w-full scroll-anchor sm:w-auto"
+            onClick={() =>
+              setSession((s) => {
+                const next = advanceStage(caseView, s);
+                const revealed = next.stagesRevealed;
+                // M3 — o alvo é o cabeçalho da etapa recém-revelada.
+                nav.current = { kind: 'stage', stageId: revealed[revealed.length - 1]! };
+                return next;
+              })
+            }
           >
             Avançar para a próxima etapa
             <ArrowRight aria-hidden />
@@ -255,8 +336,10 @@ export function CaseRunner({
         </div>
       )}
 
+      {/* `role="note"` não é anunciado: sem `tabIndex` o estudante que chega
+          neste estado ficaria sem foco e sem aviso. */}
       {!currentDp && !canGoOn && !finished && (
-        <Alert className="mt-8">
+        <Alert id={ANCHOR.endOfStages} tabIndex={-1} className="scroll-anchor mt-8">
           <AlertTitle>Fim das etapas</AlertTitle>
           <AlertDescription>Não há mais informações a revelar neste caso.</AlertDescription>
         </Alert>

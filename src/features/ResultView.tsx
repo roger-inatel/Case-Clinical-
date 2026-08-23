@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowDown,
   Equal,
@@ -30,6 +30,7 @@ import {
   cn,
 } from '@/ui';
 import { testName } from '@/evaluation/evaluate';
+import { ANCHOR, goTo } from './navigation';
 
 /**
  * Tela de resultado.
@@ -128,18 +129,49 @@ export function ResultView({
 }) {
   const [revealed, setRevealed] = useState(1);
 
-  // A análise substitui a simulação na mesma rota: sem isto o navegador mantém a
-  // rolagem do último ponto de decisão e o veredito nasce fora da tela.
+  /**
+   * M4 — a análise substitui a simulação na mesma rota. Sem subir, o navegador
+   * mantém a rolagem do último ponto de decisão e o veredito nasce fora da tela;
+   * sem mover o foco, quem usa teclado ou leitor de tela não sabe que a tela
+   * inteira mudou. Único `window.scrollTo` do produto: é troca de tela, não
+   * navegação para um alvo, e por isso é instantâneo.
+   */
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
+    document.getElementById(ANCHOR.analysisTitle)?.focus({ preventScroll: true });
   }, []);
 
-  const sections: Array<{ key: string; node: React.ReactNode }> = [];
+  /** M5 — revelação de seção. `revealed` nasce em 1: a montagem não navega. */
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    goTo(document.getElementById(ANCHOR.section(sectionKeys[revealed - 1] ?? '')));
+    // `sectionKeys` é recalculado a cada render e é estável em conteúdo; a
+    // revelação é o único gatilho.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [revealed]);
+
+  /**
+   * Uma seção é DESCRITA aqui e MONTADA no render. A separação existe para que
+   * o título saiba a própria posição ("seção 3 de 9") — o total só é conhecido
+   * depois que a última é empilhada.
+   */
+  type Section = {
+    key: string;
+    /** Ausente só no veredito, que é um cartão e não uma seção com título. */
+    heading?: { eyebrow: string; title: string; hint?: string };
+    className?: string;
+    body: React.ReactNode;
+  };
+  const sections: Section[] = [];
 
   /* 1 — veredito */
   sections.push({
     key: 'veredito',
-    node: (
+    body: (
       <div className="space-y-4">
         {result.criticalRedFlagMissed && (
           <Alert variant="danger">
@@ -192,9 +224,9 @@ export function ResultView({
 
   sections.push({
     key: 'processo',
-    node: (
-      <section className="space-y-4">
-        <SectionHeading eyebrow="Registro">O que você fez</SectionHeading>
+    heading: { eyebrow: 'Registro', title: 'O que você fez' },
+    body: (
+      <>
         <ul className="space-y-3">
           {processLines.map((line) => (
             <li key={line} className="flex gap-3 text-base text-muted-foreground">
@@ -203,34 +235,34 @@ export function ResultView({
             </li>
           ))}
         </ul>
-      </section>
+      </>
     ),
   });
 
   /* 3 — contradiz ANTES de sustenta (decisão pedagógica) */
   sections.push({
     key: 'contradiz',
-    node: (
-      <section className="space-y-4">
-        <SectionHeading eyebrow="Evidência">O que contradiz sua hipótese</SectionHeading>
+    heading: { eyebrow: 'Evidência', title: 'O que contradiz sua hipótese' },
+    body: (
+      <>
         <EvidenceList
           items={result.contradicting}
           emptyMessage="Nenhum achado do caso contradiz diretamente esta hipótese."
         />
-      </section>
+      </>
     ),
   });
 
   sections.push({
     key: 'sustenta',
-    node: (
-      <section className="space-y-4">
-        <SectionHeading eyebrow="Evidência">O que sustenta sua hipótese</SectionHeading>
+    heading: { eyebrow: 'Evidência', title: 'O que sustenta sua hipótese' },
+    body: (
+      <>
         <EvidenceList
           items={result.supporting}
           emptyMessage="Nenhum achado do caso sustenta diretamente esta hipótese."
         />
-      </section>
+      </>
     ),
   });
 
@@ -242,9 +274,9 @@ export function ResultView({
   ) {
     sections.push({
       key: 'nao-considerado',
-      node: (
-        <section className="space-y-4">
-          <SectionHeading eyebrow="Ângulos cegos">O que você não considerou</SectionHeading>
+      heading: { eyebrow: 'Ângulos cegos', title: 'O que você não considerou' },
+      body: (
+        <>
 
           {result.missedRedFlags.map((rf) => (
             <Alert key={rf.text} variant={rf.critical ? 'danger' : 'default'}>
@@ -270,7 +302,7 @@ export function ResultView({
               <p className="mt-2 text-base text-muted-foreground">{m.why}</p>
             </CommentaryBlock>
           ))}
-        </section>
+        </>
       ),
     });
   }
@@ -279,9 +311,9 @@ export function ResultView({
   if (result.decisionPointResults.length > 0) {
     sections.push({
       key: 'decisoes',
-      node: (
-        <section className="space-y-4">
-          <SectionHeading eyebrow="Percurso">Suas decisões ao longo do caso</SectionHeading>
+      heading: { eyebrow: 'Percurso', title: 'Suas decisões ao longo do caso' },
+      body: (
+        <>
           {result.decisionPointResults.map((d) => (
             <CommentaryBlock key={d.decisionPointId}>
               <p className="text-sm font-semibold text-foreground">{d.prompt}</p>
@@ -296,7 +328,7 @@ export function ResultView({
               </ul>
             </CommentaryBlock>
           ))}
-        </section>
+        </>
       ),
     });
   }
@@ -304,9 +336,9 @@ export function ResultView({
   /* 7 — raciocínio lado a lado */
   sections.push({
     key: 'raciocinio',
-    node: (
-      <section className="space-y-4">
-        <SectionHeading eyebrow="Comparação">Seu raciocínio e o do autor</SectionHeading>
+    heading: { eyebrow: 'Comparação', title: 'Seu raciocínio e o do autor' },
+    body: (
+      <>
         <div className="grid gap-4 lg:grid-cols-2">
           <Card className="p-4 sm:p-5">
             <p className="eyebrow">Seu raciocínio</p>
@@ -318,7 +350,7 @@ export function ResultView({
             <p className="text-base text-foreground">{result.authorReasoning}</p>
           </CommentaryBlock>
         </div>
-      </section>
+      </>
     ),
   });
 
@@ -326,14 +358,13 @@ export function ResultView({
   if (result.profile.length > 0) {
     sections.push({
       key: 'perfil',
-      node: (
-        <section className="space-y-4">
-          <SectionHeading
-            eyebrow="Sem nota"
-            hint="Contagens, não nota. Este instrumento é formativo: um caso não mede competência."
-          >
-            Perfil de decisão
-          </SectionHeading>
+      heading: {
+        eyebrow: 'Sem nota',
+        title: 'Perfil de decisão',
+        hint: 'Contagens, não nota. Este instrumento é formativo: um caso não mede competência.',
+      },
+      body: (
+        <>
           <ul className="space-y-2.5">
             {result.profile.map((d) => (
               <li key={d.id}>
@@ -353,7 +384,7 @@ export function ResultView({
               </li>
             ))}
           </ul>
-        </section>
+        </>
       ),
     });
   }
@@ -361,9 +392,10 @@ export function ResultView({
   /* 9 — fechamento */
   sections.push({
     key: 'fechamento',
-    node: (
-      <section className="space-y-6">
-        <SectionHeading eyebrow="Encerramento">Para fechar</SectionHeading>
+    heading: { eyebrow: 'Encerramento', title: 'Para fechar' },
+    className: 'space-y-6',
+    body: (
+      <>
 
         <CommentaryBlock title="Pergunta de reflexão">
           <p className="text-base text-foreground">{result.reflectionQuestion}</p>
@@ -428,10 +460,11 @@ export function ResultView({
           <AlertTitle>Protótipo educacional experimental</AlertTitle>
           <AlertDescription>{caseView.disclaimer}</AlertDescription>
         </Alert>
-      </section>
+      </>
     ),
   });
 
+  const sectionKeys = sections.map((x) => x.key);
   const visible = sections.slice(0, revealed);
   const hasMore = revealed < sections.length;
 
@@ -440,15 +473,35 @@ export function ResultView({
       <Breadcrumb href={`/casos/${caseView.id}/`}>{caseView.title}</Breadcrumb>
 
       <PageHeader
+        id={ANCHOR.analysisTitle}
         className="mt-4"
         eyebrow="Análise"
         title="Análise do seu raciocínio"
         lead="Escrita e revisada por uma pessoa. Nenhuma parte deste texto foi gerada automaticamente."
       />
 
-      <div className="mt-10 space-y-12" aria-live="polite">
-        {visible.map((s) => (
-          <div key={s.key}>{s.node}</div>
+      {/* Sem `aria-live` de propósito. A região viva envolvia TODAS as seções e
+          despejava a seção inteira na fila de fala ao revelar — o muro de texto
+          que a revelação por etapas existe para evitar, em áudio. Mover o foco
+          para o título anuncia E posiciona o cursor virtual; somar os dois é
+          pior que escolher um, porque o foco interrompe a fala em curso.
+          Emenda ao requisito A8 em docs/04-ux/navegacao-e-foco.md §7. */}
+      <div className="mt-10 space-y-12">
+        {visible.map((s, i) => (
+          <section key={s.key} className={s.className ?? 'space-y-4'}>
+            {s.heading && (
+              <SectionHeading
+                id={ANCHOR.section(s.key)}
+                focusable
+                eyebrow={s.heading.eyebrow}
+                hint={s.heading.hint}
+                position={`seção ${i + 1} de ${sections.length}`}
+              >
+                {s.heading.title}
+              </SectionHeading>
+            )}
+            {s.body}
+          </section>
         ))}
       </div>
 

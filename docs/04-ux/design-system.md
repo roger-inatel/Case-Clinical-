@@ -296,11 +296,11 @@ confete, sem pulsar. A revelação do feedback é um corte, não uma coreografia
 | A1 | Contraste **AA**: 4.5:1 texto normal, 3:1 texto ≥18.66px e elementos gráficos | Auditoria por token, antes do merge |
 | A2 | **Cor nunca é portador único** de significado (R3) | Revisão de cada componente com evidência/veredito |
 | A3 | Alvos de toque **≥ 44×44px** | Botões `lg` no mobile; chips com padding suficiente |
-| A4 | **Foco visível** em todo elemento interativo; ordem de foco = ordem visual | Navegação só por teclado, ponta a ponta |
+| A4 | **Foco visível** em todo elemento interativo; ordem de foco = ordem visual; e o foco **acompanha** cada avanço, em vez de cair no `<body>` quando o elemento que o tinha sai do DOM ([navegacao-e-foco.md](navegacao-e-foco.md)) | Navegação só por teclado, ponta a ponta |
 | A5 | Hierarquia real de headings, sem pular níveis | Um `h1` por página |
 | A6 | HTML semântico: `<article>` para o caso, `<blockquote>` para citação, `<fieldset>/<legend>` para grupos | — |
 | A7 | Todo campo com `<label>` associado; erro ligado por `aria-describedby` | — |
-| A8 | `aria-live="polite"` ao revelar feedback e ao mudar contagem de resultados do combobox | Nunca `assertive` |
+| A8 | Toda mudança de conteúdo provocada por uma ação do estudante é anunciada. Quando o foco **se move** para o conteúdo novo ([navegacao-e-foco.md](navegacao-e-foco.md)), o foco **é** o anúncio, e região viva não se soma a ele — foco interrompe fala em curso. Região viva `polite` fica para as mudanças em que o foco **não** se move: hoje, exclusivamente a contagem de sugestões do combobox | Nunca `assertive` |
 | A9 | Zoom até **200%** sem rolagem horizontal nem perda de conteúdo | — |
 | A10 | `prefers-reduced-motion` respeitado | — |
 | A11 | Skip link para o conteúdo principal | — |
